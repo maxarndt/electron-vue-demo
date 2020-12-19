@@ -17,19 +17,37 @@ jobs:
           artifactName: 'electron-vue-demo-0.1.0.exe'
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+
     - name: Setup Node
       uses: actions/setup-node@v1
       with:
         node-version: '12'
+
+    - name: Get npm cache directory
+      id: npm-cache
+      run: |
+        echo "::set-output name=dir::$(npm config get cache)"
+
+    - uses: actions/cache@v2
+      with:
+        path: ${{ steps.npm-cache.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
     - name: install depenencies
       run: npm install
+
     - name: lint
       run: npm run lint
+
     - name: test
       run: npm test
+
     - name: build
       run: npm run electron:build
+
     - name: upload artifact
       uses: actions/upload-artifact@v2
       with:

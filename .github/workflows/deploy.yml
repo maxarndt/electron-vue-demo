@@ -12,9 +12,9 @@ jobs:
         os: [macos-11.0, windows-2019]
         include:
         - os: macos-11.0
-          artifactName: 'electron-vue-demo-0.1.0.dmg'
+          artifactPath: 'electron-vue-demo-0.1.0.dmg'
         - os: windows-2019
-          artifactName: 'electron-vue-demo-0.1.0.exe'
+          artifactPath: 'electron-vue-demo Setup 0.1.0.exe'
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -50,8 +50,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: list dir dist_electron 
+      run: ls -la ./dist_electron
+
     - name: upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: my-artifact
-        path: ./dist_electron/${{ matrix.artifactName }}
+        name: electron-vue-demo-${{ runner.os }}
+        path: ./dist_electron/${{ matrix.artifactPath }}

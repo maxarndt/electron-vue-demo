@@ -41,11 +41,11 @@ jobs:
     - name: install depenencies
       run: npm install
 
-    - name: lint
-      run: npm run lint
+    # - name: lint
+    #   run: npm run lint
 
-    - name: test
-      run: npm test
+    # - name: test
+    #   run: npm test
 
     - name: build
       run: npm run electron:build
